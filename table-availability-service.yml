@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  description: |
+    Table Availability Service REST API
+  version: "v1"
+  title: Table Availability Service
+paths:
+  /health:
+    get:
+      summary: Health check
+      description: Check the health of the service
+      operationId: health_check
+      responses:
+        "200":
+          description: Successful operation. Service is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum:
+                      - healthy
+        "500":
+          description: Internal server error
+  /tables:
+    post:
+      summary: Reserve table
+      description: Reserve a table for a given time
+      operationId: reserve_table
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TableReservationRequest"
+      responses:
+        "201":
+          description: Successful operation. Reservation created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TableReservationResponse"
+              examples:
+                success:
+                  summary: Reservation created
+                  value:
+                    reservationId: "reservation1"
+                    tableId: "table1"
+                    startReservationTime: "2021-01-01T12:00:00Z"
+                    endReservationTime: "2021-01-01T14:00:00Z"
+                success2:
+                  summary: Reservation created
+                  value:
+                    reservationId: "reservation2"
+                    tableId: "table"
+                    startReservationTime: "2021-01-01T12:00:00Z"
+                    endReservationTime: "2021-01-01T14:00:00Z"
+        "400":
+          description: Invalid input
+        "409":
+          description: Table not available
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    TableReservationRequest:
+      type: object
+      properties:
+        startReservationTime:
+          type: string
+          format: date-time
+        endReservationTime:
+          type: string
+          format: date-time
+        minimumSeats:
+          type: integer
+      required:
+        - minimumSeats
+    TableReservationResponse:
+      type: object
+      properties:
+        reservationId:
+          type: string
+        tableId:
+          type: string
+        startReservationTime:
+          type: string
+          format: date-time
+        endReservationTime:
+          type: string
+          format: date-time
+      required:
+        - reservationId
+        - tableId
+        - startReservationTime
+        - endReservationTime
