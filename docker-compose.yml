@@ -1,7 +1,7 @@
 # - workaround to keep docker-compose networking: https://stackoverflow.com/a/58391619
 version: "3"
 services:
-  table-availablility-service:
+  reservations-service:
     ports:
       - "8010:8010"
     image: "stoplight/prism:4.10.5"
@@ -15,5 +15,5 @@ services:
         "/tmp/file.yaml"
       ]
     volumes:
-      - "./table-availability-service.yml:/tmp/file.yaml"
+      - "./reservations-service.yml:/tmp/file.yaml"
     platform: linux/amd64

@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  description: |
+    Notifications Service REST API
+  version: "v1"
+  title: Notifications Service
+paths:
+  /emails:
+    post:
+      summary: Send email
+      description: Send an email
+      operationId: send_email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailRequest"
+      responses:
+        "202":
+          description: Successful operation. Email sending triggered.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailResponse"
+              examples:
+                success:
+                  summary: Email sent
+                  value:
+                    emailId: "email1"
+        "400":
+          description: Invalid request body
+
+components:
+  schemas:
+    EmailRequest:
+      type: object
+      properties:
+        address:
+          type: string
+          format: email
+        template:
+          type: string
+          enum:
+            - reservation
+            - welcome
+            - promotion
+    EmailResponse:
+      type: object
+      properties:
+        emailId:
+          type: string

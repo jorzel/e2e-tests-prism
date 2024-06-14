@@ -1,9 +1,9 @@
 openapi: 3.0.3
 info:
   description: |
-    Table Availability Service REST API
+    Restuarant Reservations Service REST API
   version: "v1"
-  title: Table Availability Service
+  title: Reservations Service
 paths:
   /health:
     get:
@@ -24,7 +24,7 @@ paths:
                       - healthy
         "500":
           description: Internal server error
-  /tables:
+  /reservations:
     post:
       summary: Reserve table
       description: Reserve a table for a given time
@@ -46,16 +46,16 @@ paths:
                   summary: Reservation created
                   value:
                     reservationId: "reservation1"
-                    tableId: "table1"
+                    restaurantId: "restaurant1"
                     startReservationTime: "2021-01-01T12:00:00Z"
                     endReservationTime: "2021-01-01T14:00:00Z"
                 success2:
                   summary: Reservation created
                   value:
                     reservationId: "reservation2"
-                    tableId: "table"
-                    startReservationTime: "2021-01-01T12:00:00Z"
-                    endReservationTime: "2021-01-01T14:00:00Z"
+                    restaurantId: "restaurant2"
+                    startReservationTime: "2021-01-01T18:00:00Z"
+                    endReservationTime: null
         "400":
           description: Invalid input
         "409":
@@ -68,6 +68,8 @@ components:
     TableReservationRequest:
       type: object
       properties:
+        restaurantId:
+          type: string
         startReservationTime:
           type: string
           format: date-time
@@ -77,7 +79,9 @@ components:
         minimumSeats:
           type: integer
       required:
+        - restaurantId
         - minimumSeats
+        - startReservationTime
     TableReservationResponse:
       type: object
       properties:
