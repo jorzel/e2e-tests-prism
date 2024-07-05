@@ -23,10 +23,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/EmailResponse"
               examples:
-                success:
+                success1:
                   summary: Email sent
                   value:
                     emailId: "email1"
+                success2:
+                  summary: Email sent
+                  value:
+                    emailId: "email2"
         "400":
           description: Invalid request body
 
@@ -34,16 +38,18 @@ components:
   schemas:
     EmailRequest:
       type: object
+      required:
+        - address
+        - title
+        - body
       properties:
         address:
           type: string
           format: email
-        template:
+        title:
           type: string
-          enum:
-            - reservation
-            - welcome
-            - promotion
+        body:
+          type: string
     EmailResponse:
       type: object
       properties:
